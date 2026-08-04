@@ -1,0 +1,9 @@
+/build*/
+/results/
+/data/
+baselines/_vendor/
+vcpkg_installed/
+*.log
+.idxcache/
+.scratch/
+__pycache__/

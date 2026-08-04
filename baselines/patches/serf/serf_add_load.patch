@@ -1,0 +1,52 @@
+diff --git a/SeRF/src/segment_graph_2d.h b/SeRF/src/segment_graph_2d.h
+index 78043653..c5d18a1f 100644
+--- a/SeRF/src/segment_graph_2d.h
++++ b/SeRF/src/segment_graph_2d.h
+@@ -1027,6 +1027,47 @@ class IndexSegmentGraph2D : public BaseIndex {
+     out.close();
+   }
+ 
++  // load(): strictly symmetric to write() above. Rebuilds directed_indexed_arr and
++  // index_info from the on-disk graph; dist func / vectors come from the constructor
++  // (space + data_wrapper), so only the graph and the visited-list pool are restored.
++  void load(const std::string &filepath) {
++    std::ifstream in(filepath, std::ios::binary);
++    if (!in.is_open()) throw std::runtime_error("Cannot open file " + filepath);
++    size_t str_len = 0;
++    in.read(reinterpret_cast<char*>(&str_len), sizeof(size_t));
++    index_info->index_version_type.resize(str_len);
++    in.read(reinterpret_cast<char*>(&index_info->index_version_type[0]), str_len);
++    in.read(reinterpret_cast<char*>(&(index_info->index_time)), sizeof(double));
++    in.read(reinterpret_cast<char*>(&(index_info->window_count)), sizeof(int));
++    in.read(reinterpret_cast<char*>(&(index_info->nodes_amount)), sizeof(int));
++    in.read(reinterpret_cast<char*>(&(index_info->avg_forward_nns)), sizeof(float));
++    in.read(reinterpret_cast<char*>(&(index_info->avg_reverse_nns)), sizeof(float));
++    size_t index_size = 0;
++    in.read(reinterpret_cast<char*>(&index_size), sizeof(size_t));
++    directed_indexed_arr.clear();
++    directed_indexed_arr.resize(index_size);
++    for (size_t i = 0; i < index_size; i++) {
++      size_t fwd_size = 0;
++      in.read(reinterpret_cast<char*>(&fwd_size), sizeof(size_t));
++      directed_indexed_arr[i].forward_nns.resize(fwd_size);
++      for (size_t j = 0; j < fwd_size; j++) {
++        size_t nnsid_size = 0;
++        in.read(reinterpret_cast<char*>(&nnsid_size), sizeof(size_t));
++        directed_indexed_arr[i].forward_nns[j].nns_id.resize(nnsid_size);
++        in.read(reinterpret_cast<char*>(directed_indexed_arr[i].forward_nns[j].nns_id.data()), sizeof(int) * nnsid_size);
++        in.read(reinterpret_cast<char*>(&directed_indexed_arr[i].forward_nns[j].batch), sizeof(unsigned));
++        in.read(reinterpret_cast<char*>(&directed_indexed_arr[i].forward_nns[j].start), sizeof(int));
++        in.read(reinterpret_cast<char*>(&directed_indexed_arr[i].forward_nns[j].end), sizeof(int));
++      }
++      size_t bwd_size = 0;
++      in.read(reinterpret_cast<char*>(&bwd_size), sizeof(size_t));
++      directed_indexed_arr[i].reverse_nns.resize(bwd_size);
++      in.read(reinterpret_cast<char*>(directed_indexed_arr[i].reverse_nns.data()), sizeof(int) * bwd_size);
++    }
++    in.close();
++    visited_list_pool_ = new VisitedListPool(1, data_wrapper->data_size);
++  }
++
+   // initialise from disk
+   void buildIndexFromFile(string& filename, const IndexParams *index_params){
+     std:ifstream in(filename, ios::binary);

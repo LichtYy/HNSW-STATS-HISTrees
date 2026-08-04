@@ -1,0 +1,13 @@
+[hnsw]
+M = [16, 32]
+efConstruction = [128, 200]
+
+[simd.group1]
+name = "scalar"
+description = "SIMD off for all methods (compare pure algorithm+impl)."
+hnsw_stats_simd = false
+
+[simd.group2]
+name = "official_default"
+description = "Each method's official default (may use SIMD); annotate per-method SIMD state."
+hnsw_stats_simd = true

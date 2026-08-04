@@ -1,0 +1,104 @@
+[sift1m]
+path = "data/datasets/sift1m"
+base_file = "sift_base.fvecs"
+query_file = "sift_query.fvecs"
+N = 1000000
+dim = 128
+metric = "L2"
+format = "fvecs"
+official_query_set = true
+
+scalar_columns = []
+
+[arxiv1m]
+path = "data/datasets/arxiv_download/arxiv1m_raw"
+base_file = "database_vectors.fvecs"
+query_file = "query_vectors.fvecs"
+attribute_file = "database_attributes.jsonl"
+N = 2735264
+dim = 4096
+metric = "L2"
+format = "fvecs"
+official_query_set = true
+
+text_pool_file = "abstracts_masked_v4.pool.bin"
+text_pool_name = "abstract"
+code_file = "kwcode_v3.bin"
+code_name = "kwcode"
+
+[[arxiv1m.columns]]
+field = "number_of_authors"
+type = "numeric"
+[[arxiv1m.columns]]
+field = "number_of_versions"
+type = "numeric"
+[[arxiv1m.columns]]
+field = "number_of_main_categories"
+type = "numeric"
+[[arxiv1m.columns]]
+field = "number_of_sub_categories"
+type = "numeric"
+[[arxiv1m.columns]]
+field = "update_date"
+type = "numeric"
+[[arxiv1m.columns]]
+field = "license"
+type = "categorical"
+
+[gist1m]
+path = "data/datasets/gist1m"
+base_file = "gist_base.fvecs"
+query_file = "gist_query.fvecs"
+N = 1000000
+dim = 960
+metric = "L2"
+format = "fvecs"
+official_query_set = true
+scalar_columns = []
+
+[amazon2023]
+path = "data/datasets/amazon_reviews_2023"
+base_file = "base.fvecs"
+query_file = "queries.fvecs"
+N = 1600012
+dim = 768
+metric = "L2"
+format = "fvecs"
+official_query_set = true
+text_pool_file = "texts_masked_v2.pool.bin"
+text_pool_name = "abstract"
+code_file = "kwcode_v2.bin"
+code_name = "kwcode"
+attribute_file = "base_attrs.csv"
+[[amazon2023.columns]]
+field = "price"
+type = "numeric"
+[[amazon2023.columns]]
+field = "avg_rating"
+type = "numeric"
+[[amazon2023.columns]]
+field = "n_ratings"
+type = "numeric"
+
+[morevec_movies]
+path = "data/datasets/morevec_movies"
+base_file = "base.fvecs"
+query_file = "queries.fvecs"
+attribute_file = "attributes.csv"
+N = 9999
+dim = 768
+metric = "L2"
+format = "fvecs"
+official_query_set = false
+[[morevec_movies.columns]]
+field = "avgrating"
+type = "numeric"
+[[morevec_movies.columns]]
+field = "num_votes"
+type = "numeric"
+[[morevec_movies.columns]]
+field = "year"
+type = "numeric"
+[[morevec_movies.columns]]
+field = "genre"
+type = "categorical"

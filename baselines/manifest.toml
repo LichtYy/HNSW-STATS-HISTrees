@@ -1,0 +1,36 @@
+[fannbench]
+url = "https://github.com/lmccccc/FANNBench.git"
+commit = "ebfbbd2ab375bab64d7b0302a4b16f72198ec495"
+vendor_path = "_vendor/FANNBench"
+build = "see subproject"
+applicable = "benchmark_framework"
+bundles = ["ACORN", "SeRF", "DiskANN", "iRangeGraph", "RangeFilteredANN", "UNIFY", "faiss"]
+
+[acorn]
+url = "bundled:fannbench"
+vendor_path = "_vendor/FANNBench/ACORN"
+commit = "ebfbbd2ab375bab64d7b0302a4b16f72198ec495"
+build = "cmake"
+applicable = "any"
+
+[serf]
+url = "bundled:fannbench"
+vendor_path = "_vendor/FANNBench/SeRF"
+commit = "ebfbbd2ab375bab64d7b0302a4b16f72198ec495"
+build = "cmake"
+applicable = "single_numeric_range"
+
+[filtered_diskann]
+url = "bundled:fannbench"
+vendor_path = "_vendor/FANNBench/DiskANN"
+commit = "ebfbbd2ab375bab64d7b0302a4b16f72198ec495"
+build = "cmake"
+applicable = "categorical"
+
+[nhq]
+url = "https://github.com/YujianFu97/NHQ.git"
+commit = "f19ebc4747c2889f1ef7a485fbf0f8664ec75dc8"
+vendor_path = "_vendor/NHQ"
+build = "cmake"
+applicable = "categorical"
+

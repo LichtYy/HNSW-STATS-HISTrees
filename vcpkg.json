@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "hnsw-stats",
+  "version-string": "0.0.1",
+  "description": "Per-region selectivity-adaptive filtered-ANN search over native HNSW.",
+  "builtin-baseline": "40dd49b0c9c7dbd79dc64cad5e82308eae04f67f",
+  "dependencies": [
+    "hnswlib",
+    "tomlplusplus",
+    "nlohmann-json",
+    {
+      "name": "catch2",
+      "default-features": false
+    }
+  ]
+}

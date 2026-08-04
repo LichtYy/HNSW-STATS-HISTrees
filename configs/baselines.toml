@@ -1,0 +1,49 @@
+[post_filter]
+applicable_predicates = "any"
+verified = true
+oversample = "K / s"
+knob = "ef"
+impl = "reimpl"
+
+[acorn]
+applicable_predicates = "any"
+verified = true
+gamma = "1 / s_min"
+gamma_practice_cap = "min(5%-strictest-query, 30); benchmark gamma=10-15"
+efs = [10, 15, 20, 25, 30, 50, 100, 250, 500, 750]
+param_groups = ["M=32,M_beta=32", "M=32,M_beta=64", "M=64,M_beta=64"]
+note_navix_delta = "NaviX records this density param as delta (delta=1 removes pruning, needs M=64; delta=10 modifies pruning)"
+impl = "vendored"
+
+[navix]
+applicable_predicates = "any"
+verified = true
+base_index = "standard HNSW (same M as ACORN)"
+efs = [10, 15, 20, 25, 30, 50, 100, 250, 500, 750]
+heuristic = "local-selectivity-adaptive 1-hop/2-hop"
+impl = "reimpl"
+
+[serf]
+applicable_predicates = "single_numeric_range"
+M = [32, 64]
+efConstruction = 200
+efmax = 500
+ef_search = [40, 60, 80, 100]
+note = "ordered numeric single attribute only; no categorical"
+impl = "vendored"
+
+[filtered_diskann]
+applicable_predicates = "categorical"
+R = 64
+L = 100
+alpha = 1.2
+L_search = "query-time knob"
+variants = ["FilteredVamana", "StitchedVamana"]
+impl = "vendored"
+
+[nhq]
+applicable_predicates = "categorical"
+ef = "query-time knob"
+mechanism = "composite proximity graph + joint pruning; fused structural+unstructured distance"
+impl = "vendored"
+
